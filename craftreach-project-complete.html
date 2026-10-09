@@ -1,0 +1,312 @@
+
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>CraftReach — Project Complete</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, "Segoe UI", system-ui, sans-serif; background: #f7f8fa; color: #1f2328; font-size: 14px; line-height: 1.6; }
+  .page { max-width: 760px; margin: 0 auto; padding: 40px 24px 60px; }
+
+  .hero { background: linear-gradient(135deg, #2d1b0e 0%, #8b3a1a 50%, #4338ca 100%); color: white; border-radius: 16px; padding: 32px; margin-bottom: 32px; }
+  .hero-tag { display: inline-block; background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.25); border-radius: 20px; padding: 4px 12px; font-size: 11px; font-weight: 600; letter-spacing: 0.05em; margin-bottom: 12px; }
+  .hero h1 { font-size: 32px; font-weight: 900; letter-spacing: -0.5px; margin-bottom: 4px; }
+  .hero .tagline { font-size: 16px; color: rgba(255,255,255,0.7); margin-bottom: 16px; }
+  .hero .status { display: inline-flex; align-items: center; gap: 8px; background: rgba(34,197,94,0.2); border: 1px solid rgba(34,197,94,0.4); border-radius: 8px; padding: 6px 14px; font-size: 13px; font-weight: 600; color: #86efac; }
+  .hero .status::before { content: ""; width: 8px; height: 8px; background: #22c55e; border-radius: 50%; display: inline-block; }
+
+  h2 { font-size: 16px; font-weight: 700; color: #1f2328; margin-bottom: 12px; margin-top: 28px; padding-bottom: 6px; border-bottom: 1px solid #e5e7eb; }
+  h2:first-of-type { margin-top: 0; }
+
+  .run-box { background: #1f2328; color: #e5e7eb; border-radius: 12px; padding: 20px 24px; font-family: "Cascadia Code", "Fira Code", "Courier New", monospace; font-size: 13px; line-height: 2; margin-bottom: 8px; }
+  .run-box .comment { color: #57606a; }
+  .run-box .cmd { color: #86efac; }
+  .run-box .url { color: #93c5fd; }
+  .note { font-size: 12px; color: #57606a; margin-top: 6px; }
+  .note a { color: #3b82d4; }
+
+  .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 8px; }
+  .stat { background: white; border: 1px solid #e5e7eb; border-radius: 10px; padding: 14px; text-align: center; }
+  .stat .val { font-size: 26px; font-weight: 900; color: #c94420; }
+  .stat .lbl { font-size: 11px; color: #57606a; margin-top: 2px; font-weight: 500; }
+
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  thead th { text-align: left; padding: 8px 10px; font-size: 11px; font-weight: 700; color: #57606a; text-transform: uppercase; letter-spacing: 0.05em; border-bottom: 2px solid #e5e7eb; }
+  tbody td { padding: 8px 10px; border-bottom: 1px solid #f3f4f6; vertical-align: top; }
+  tbody tr:last-child td { border-bottom: none; }
+  tbody tr:hover td { background: #f9fafb; }
+  .tick { color: #22c55e; font-weight: 700; }
+  .badge { display: inline-block; padding: 2px 8px; border-radius: 20px; font-size: 11px; font-weight: 600; }
+  .badge-red { background: #fee2e2; color: #991b1b; }
+  .badge-green { background: #dcfce7; color: #166534; }
+  .badge-indigo { background: #e0e7ff; color: #3730a3; }
+  .badge-ochre { background: #fef9c3; color: #854d0e; }
+
+  .creds { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .cred-card { background: white; border: 1px solid #e5e7eb; border-radius: 10px; padding: 12px 14px; }
+  .cred-role { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: #57606a; margin-bottom: 4px; }
+  .cred-name { font-weight: 700; font-size: 13px; color: #1f2328; }
+  .cred-email { font-family: monospace; font-size: 12px; color: #3b82d4; }
+  .cred-meta { font-size: 11px; color: #57606a; margin-top: 2px; }
+
+  .pipeline { display: flex; align-items: center; gap: 0; background: white; border: 1px solid #e5e7eb; border-radius: 12px; overflow: hidden; margin-bottom: 8px; }
+  .pipe-step { flex: 1; text-align: center; padding: 14px 8px; }
+  .pipe-step .icon { font-size: 20px; display: block; margin-bottom: 4px; }
+  .pipe-step .label { font-size: 10px; font-weight: 800; letter-spacing: 0.08em; color: #57606a; }
+  .pipe-arrow { color: #d1d5db; font-size: 14px; flex-shrink: 0; }
+  .pipe-step:nth-child(1) { background: #fdf4f0; }
+  .pipe-step:nth-child(3) { background: #eef2ff; }
+  .pipe-step:nth-child(5) { background: #f0fdf4; }
+  .pipe-step:nth-child(7) { background: #fefce8; }
+  .pipe-step:nth-child(9) { background: #faf5ff; }
+
+  .file-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+  .file-group { background: white; border: 1px solid #e5e7eb; border-radius: 8px; padding: 10px 12px; }
+  .file-group h4 { font-size: 11px; font-weight: 700; color: #57606a; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 6px; }
+  .file-group ul { list-style: none; }
+  .file-group ul li { font-size: 12px; color: #374151; padding: 1px 0; font-family: monospace; }
+  .file-group ul li::before { content: "• "; color: #c94420; }
+
+  footer { border-top: 1px solid #e5e7eb; margin-top: 40px; padding-top: 16px; text-align: center; font-size: 12px; color: #57606a; }
+</style>
+</head>
+<body>
+<div class="page">
+
+  
+  <div class="hero">
+    <div class="hero-tag">Smart India Hackathon 2024 · Prototype</div>
+    <h1>CraftReach</h1>
+    <div class="tagline">AI-Driven Market Linkage &amp; Smart Cataloging for Marginalized Artisans</div>
+    <div class="status">Build Complete — Ready to Run</div>
+  </div>
+
+  
+  <h2>How to Run</h2>
+  <div class="run-box">
+    <div class="comment"># 1. Install Node.js from https://nodejs.org (if not installed)</div>
+    <div class="comment"># 2. Open terminal in the craftreach/ folder</div>
+    <div> </div>
+    <div><span class="cmd">npm install</span></div>
+    <div><span class="cmd">npm run dev</span></div>
+    <div> </div>
+    <div class="comment"># Then open →  <span class="url">http://localhost:5173</span></div>
+  </div>
+  <p class="note">Password for all demo accounts: <strong>demo123</strong></p>
+
+  
+  <h2>Project Stats</h2>
+  <div class="stats">
+    <div class="stat"><div class="val">60</div><div class="lbl">Total Files</div></div>
+    <div class="stat"><div class="val">44</div><div class="lbl">React Components</div></div>
+    <div class="stat"><div class="val">30</div><div class="lbl">Routes</div></div>
+    <div class="stat"><div class="val">3</div><div class="lbl">Languages</div></div>
+  </div>
+
+  
+  <h2>Core Flow</h2>
+  <div class="pipeline">
+    <div class="pipe-step"><span class="icon">🤖</span><span class="label">CREATE</span></div>
+    <div class="pipe-arrow">›</div>
+    <div class="pipe-step"><span class="icon">🖼️</span><span class="label">SHOWCASE</span></div>
+    <div class="pipe-arrow">›</div>
+    <div class="pipe-step"><span class="icon">🔗</span><span class="label">CONNECT</span></div>
+    <div class="pipe-arrow">›</div>
+    <div class="pipe-step"><span class="icon">💰</span><span class="label">SELL</span></div>
+    <div class="pipe-arrow">›</div>
+    <div class="pipe-step"><span class="icon">📈</span><span class="label">GROW</span></div>
+  </div>
+
+  
+  <h2>Demo Credentials</h2>
+  <div class="creds">
+    <div class="cred-card">
+      <div class="cred-role">🏺 Artisan</div>
+      <div class="cred-name">Meera Devi</div>
+      <div class="cred-email">meera@demo.com</div>
+      <div class="cred-meta">Hand-painted Pottery · Jaipur</div>
+    </div>
+    <div class="cred-card">
+      <div class="cred-role">🏺 Artisan</div>
+      <div class="cred-name">Rajan Sharma</div>
+      <div class="cred-email">rajan@demo.com</div>
+      <div class="cred-meta">Banarasi Textiles · Varanasi</div>
+    </div>
+    <div class="cred-card">
+      <div class="cred-role">🏺 Artisan</div>
+      <div class="cred-name">Lakshmi Bai</div>
+      <div class="cred-email">lakshmi@demo.com</div>
+      <div class="cred-meta">Mirror Embroidery · Kutch</div>
+    </div>
+    <div class="cred-card">
+      <div class="cred-role">🏺 Artisan</div>
+      <div class="cred-name">Suresh Patel</div>
+      <div class="cred-email">suresh@demo.com</div>
+      <div class="cred-meta">Woodcraft · Rajkot</div>
+    </div>
+    <div class="cred-card">
+      <div class="cred-role">🛍️ Buyer</div>
+      <div class="cred-name">Priya Kapoor</div>
+      <div class="cred-email">priya@demo.com</div>
+      <div class="cred-meta">Event Planner · Mumbai</div>
+    </div>
+    <div class="cred-card">
+      <div class="cred-role">🛍️ Buyer</div>
+      <div class="cred-name">The Crafted Store</div>
+      <div class="cred-email">store@demo.com</div>
+      <div class="cred-meta">Boutique · Delhi</div>
+    </div>
+  </div>
+
+  
+  <h2>All Features Built</h2>
+  <table>
+    <thead><tr><th>Feature</th><th>Route</th><th>Status</th></tr></thead>
+    <tbody>
+      <tr><td>Public landing page (hero, pipeline, featured crafts)</td><td><code>/</code></td><td class="tick">✓</td></tr>
+      <tr><td>Artisan registration + 4-step onboarding</td><td><code>/register/artisan</code></td><td class="tick">✓</td></tr>
+      <tr><td><strong>AI Smart Catalogue Creator</strong> — 5-step wizard</td><td><code>/artisan/catalogue/create</code></td><td class="tick">✓</td></tr>
+      <tr><td>AI image analysis + suggestions (simulated, offline)</td><td>Step 2 of wizard</td><td class="tick">✓</td></tr>
+      <tr><td>Voice input simulation (2-second mock recording)</td><td>Step 3 of wizard</td><td class="tick">✓</td></tr>
+      <tr><td>Catalogue Readiness Score gauge + checklist</td><td>Step 5 of wizard</td><td class="tick">✓</td></tr>
+      <tr><td>Approval gate → Visibility selection (Gallery / Marketplace / Both)</td><td>Step 5 of wizard</td><td class="tick">✓</td></tr>
+      <tr><td>Artisan Dashboard (stats, AI insights, recent activity)</td><td><code>/artisan/dashboard</code></td><td class="tick">✓</td></tr>
+      <tr><td>My Products (manage, delete, quick-sell link)</td><td><code>/artisan/products</code></td><td class="tick">✓</td></tr>
+      <tr><td>Digital Artisan Gallery (Available / Coming Soon / Exhibition)</td><td><code>/gallery/:id</code></td><td class="tick">✓</td></tr>
+      <tr><td><strong>Market Opportunities</strong> — 4-channel AI recommendations</td><td><code>/artisan/market-opportunities</code></td><td class="tick">✓</td></tr>
+      <tr><td>Prepare Listing modal with external channel note</td><td>Market Opportunities</td><td class="tick">✓</td></tr>
+      <tr><td>Orders (status pipeline: New→Confirmed→Preparing→Shipped→Delivered)</td><td><code>/artisan/orders</code></td><td class="tick">✓</td></tr>
+      <tr><td>Enquiries + reply threads</td><td><code>/artisan/enquiries</code></td><td class="tick">✓</td></tr>
+      <tr><td>Business Insights (views, enquiries, orders, AI recommendations)</td><td><code>/artisan/insights</code></td><td class="tick">✓</td></tr>
+      <tr><td>Business Support (6 categories, scheme cards, demo-labelled)</td><td><code>/artisan/support</code></td><td class="tick">✓</td></tr>
+      <tr><td>Notifications (typed, unread badge, mark-read)</td><td><code>/artisan/notifications</code></td><td class="tick">✓</td></tr>
+      <tr><td>Artisan Profile edit + completeness bar</td><td><code>/artisan/profile</code></td><td class="tick">✓</td></tr>
+      <tr><td>Public Marketplace (search, filters, 8 categories)</td><td><code>/marketplace</code></td><td class="tick">✓</td></tr>
+      <tr><td>Auth-gated buyer actions (SignInPromptModal)</td><td>Marketplace / Gallery</td><td class="tick">✓</td></tr>
+      <tr><td>Product Catalogue page (zoom, QR code, AR mock, share)</td><td><code>/catalogue/:id</code></td><td class="tick">✓</td></tr>
+      <tr><td>Dynamic buyer-specific view (Individual / Boutique / Event Planner)</td><td><code>/catalogue/:id</code></td><td class="tick">✓</td></tr>
+      <tr><td>Enquiry modal → saves to DB → notifies artisan</td><td><code>/catalogue/:id</code></td><td class="tick">✓</td></tr>
+      <tr><td>Public Artisan Profile page</td><td><code>/artisan/:id</code></td><td class="tick">✓</td></tr>
+      <tr><td>Buyer registration + dashboard</td><td><code>/register/buyer</code></td><td class="tick">✓</td></tr>
+      <tr><td><strong>Buyer AI Matching</strong> — natural language + structured input</td><td><code>/buyer/ai-match</code></td><td class="tick">✓</td></tr>
+      <tr><td>"Why this matches" expandable match reasons</td><td>AI Match results</td><td class="tick">✓</td></tr>
+      <tr><td>Buyer Orders, Enquiries, Saved Products, Notifications</td><td><code>/buyer/*</code></td><td class="tick">✓</td></tr>
+      <tr><td>Full i18n — English / हिंदी / मराठी (real translations, live toggle)</td><td>Every page</td><td class="tick">✓</td></tr>
+      <tr><td>One master product record (no duplication)</td><td>Architecture</td><td class="tick">✓</td></tr>
+      <tr><td>Artisan auth guard (redirect to login if not authenticated)</td><td>All <code>/artisan/*</code></td><td class="tick">✓</td></tr>
+      <tr><td>About page + 404 page</td><td><code>/about</code>, <code>*</code></td><td class="tick">✓</td></tr>
+    </tbody>
+  </table>
+
+  
+  <h2>Source File Structure</h2>
+  <div class="file-grid">
+    <div class="file-group">
+      <h4>Config &amp; Root</h4>
+      <ul>
+        <li>index.html</li>
+        <li>package.json</li>
+        <li>vite.config.js</li>
+        <li>tailwind.config.js</li>
+        <li>postcss.config.js</li>
+        <li>README.md</li>
+      </ul>
+    </div>
+    <div class="file-group">
+      <h4>Core (src/)</h4>
+      <ul>
+        <li>main.jsx</li>
+        <li>App.jsx (30 routes)</li>
+        <li>ai/engine.js</li>
+        <li>context/AuthContext.jsx</li>
+        <li>data/db.js</li>
+        <li>data/schema.js</li>
+        <li>data/seed.js</li>
+        <li>data/seedRunner.js</li>
+      </ul>
+    </div>
+    <div class="file-group">
+      <h4>UI Components</h4>
+      <ul>
+        <li>Button.jsx</li>
+        <li>Card.jsx</li>
+        <li>Input.jsx</li>
+        <li>Modal.jsx</li>
+        <li>Badge.jsx</li>
+        <li>Avatar.jsx</li>
+        <li>Spinner.jsx</li>
+        <li>LanguageToggle.jsx</li>
+      </ul>
+    </div>
+    <div class="file-group">
+      <h4>Layouts &amp; Auth</h4>
+      <ul>
+        <li>PublicLayout.jsx</li>
+        <li>ArtisanLayout.jsx</li>
+        <li>BuyerLayout.jsx</li>
+        <li>AuthGuard.jsx</li>
+        <li>BuyerActionGuard.jsx</li>
+      </ul>
+    </div>
+    <div class="file-group">
+      <h4>Artisan Pages (11)</h4>
+      <ul>
+        <li>Onboarding.jsx</li>
+        <li>Dashboard.jsx</li>
+        <li>CatalogueCreate.jsx</li>
+        <li>Products.jsx</li>
+        <li>Gallery.jsx</li>
+        <li>MarketOpportunities.jsx</li>
+        <li>Orders.jsx</li>
+        <li>Enquiries.jsx</li>
+        <li>Insights.jsx</li>
+        <li>Support.jsx</li>
+        <li>ProfileEdit.jsx</li>
+        <li>Notifications.jsx</li>
+      </ul>
+    </div>
+    <div class="file-group">
+      <h4>Public + Buyer + Auth</h4>
+      <ul>
+        <li>LandingPage.jsx</li>
+        <li>Marketplace.jsx</li>
+        <li>CataloguePage.jsx</li>
+        <li>ArtisanGallery.jsx</li>
+        <li>ArtisanProfile.jsx</li>
+        <li>About.jsx</li>
+        <li>Login.jsx</li>
+        <li>ArtisanRegister.jsx</li>
+        <li>BuyerRegister.jsx</li>
+        <li>BuyerDashboard.jsx</li>
+        <li>AIMatch.jsx</li>
+        <li>BuyerOrders.jsx</li>
+        <li>BuyerEnquiries.jsx</li>
+        <li>SavedProducts.jsx</li>
+        <li>BuyerNotifications.jsx</li>
+        <li>NotFound.jsx</li>
+      </ul>
+    </div>
+  </div>
+
+  
+  <h2>Tech Stack</h2>
+  <table>
+    <thead><tr><th>Package</th><th>Purpose</th></tr></thead>
+    <tbody>
+      <tr><td>React 18 + Vite</td><td>UI framework + build tool</td></tr>
+      <tr><td>TailwindCSS + custom palette</td><td>Styling (terracotta, indigo, ochre)</td></tr>
+      <tr><td>React Router v6</td><td>Client-side routing (30 routes)</td></tr>
+      <tr><td>react-i18next</td><td>Full EN / हिंदी / मराठी i18n</td></tr>
+      <tr><td>localforage</td><td>IndexedDB persistence — no server needed</td></tr>
+      <tr><td>react-dropzone</td><td>Product image upload</td></tr>
+      <tr><td>qrcode.react</td><td>Product QR codes</td></tr>
+      <tr><td>react-hot-toast</td><td>Toast notifications</td></tr>
+      <tr><td>lucide-react</td><td>Icons throughout</td></tr>
+    </tbody>
+  </table>
+
+  <footer>Made with IBM Bob  ·  CraftReach — Smart India Hackathon 2024</footer>
+</div>
+</body>
+</html>
